@@ -1,3 +1,4 @@
+// src/app/components/checkout.js
 'use client';
 
 import { useCart } from '../context/CartContext';
@@ -16,13 +17,12 @@ const Checkout = () => {
 
     try {
       // Send order details to your backend for STK Push
-      const response = await axios.post('/api/initiate-stkpush', {
-        amount: totalAmount,
-        // Include other necessary details like phone number
+      const response = await axios.post('/api/mpesa-stk-push', {
+        totalAmount,
         phoneNumber: '254791195226' // Example phone number
       });
 
-      if (response.data.success) {
+      if (response.data && response.data.ResponseCode === '0') {
         alert('Payment request sent. Please complete the payment on your phone.');
         // Optionally, redirect or handle the response
         router.push('/success'); // Example redirect
